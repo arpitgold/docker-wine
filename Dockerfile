@@ -45,7 +45,7 @@ RUN	dpkg --add-architecture i386 && \
 	apt-get update && \
 
 # Installation of graphics driver.
-	apt-get install -y --no-install-recommends initramfs-tools nvidia-361 && \
+#	apt-get install -y --no-install-recommends initramfs-tools nvidia-361 && \
 
 # Installation of wine, winetricks and its utilities and temporary xvfb to install latest winetricks and its tricks during docker build.
 	apt-get install -y --no-install-recommends wine1.8 cabextract unzip p7zip wget zenity xvfb && \
@@ -55,7 +55,7 @@ RUN	dpkg --add-architecture i386 && \
 # Installation of p11 to stop p11 kit error messages.
 	apt-get install -y --no-install-recommends p11-kit-modules:i386 libp11-kit-gnome-keyring:i386 && \
 # Installation of pulseaudio support for wine sound.
-	apt-get install -y --no-install-recommends pulseaudio:i386 libasound2-plugins:i386 && \
+#	apt-get install -y --no-install-recommends pulseaudio:i386 libasound2-plugins:i386 && \
 
 # Installation of winetricks' tricks as wine user, comment if not needed.
 	su -p -l wine -c winecfg && \
