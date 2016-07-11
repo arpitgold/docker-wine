@@ -33,46 +33,46 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN	dpkg --add-architecture i386
 
 # Updating and upgrading a bit.
-	apt-get update
-	apt-get upgrade -y
+RUN	apt-get update
+RUN	apt-get upgrade -y
 
 # We need software-properties-common to add ppas.
-	apt-get install -y --no-install-recommends software-properties-common
+RUN	apt-get install -y --no-install-recommends software-properties-common
 
 # Adding required ppas: graphics drivers and wine.
-	add-apt-repository ppa:graphics-drivers/ppa
-	add-apt-repository ppa:ubuntu-wine/ppa
-	apt-get update
+RUN	add-apt-repository ppa:graphics-drivers/ppa
+RUN	add-apt-repository ppa:ubuntu-wine/ppa
+RUN	apt-get update
 
 # Installation of graphics driver.
-	apt-get install -y --no-install-recommends initramfs-tools nvidia-361
+RUN	apt-get install -y --no-install-recommends initramfs-tools nvidia-361
 
 # Installation of wine, winetricks and its utilities and temporary xvfb to install latest winetricks and its tricks during docker build.
-	apt-get install -y --no-install-recommends wine1.8 cabextract unzip p7zip wget zenity xvfb
-	wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && chmod +x winetricks && mv winetricks /usr/local/bin
+RUN	apt-get install -y --no-install-recommends wine1.8 cabextract unzip p7zip wget zenity xvfb
+RUN	wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks && chmod +x winetricks && mv winetricks /usr/local/bin
 # Installation of winbind to stop ntlm error messages.
-	apt-get install -y --no-install-recommends winbind
+RUN	apt-get install -y --no-install-recommends winbind
 # Installation of p11 to stop p11 kit error messages.
 #	apt-get install -y --no-install-recommends p11-kit-modules:i386 libp11-kit-gnome-keyring:i386 && \
 # Installation of pulseaudio support for wine sound.
 #	apt-get install -y --no-install-recommends pulseaudio:i386 libasound2-plugins:i386 && \
 
 # Installation of winetricks' tricks as wine user, comment if not needed.
-	su -p -l wine -c winecfg
-	su -p -l wine -c 'xvfb-run -a winetricks -q corefonts'
-	su -p -l wine -c 'xvfb-run -a winetricks -q dotnet20'
-	su -p -l wine -c 'xvfb-run -a winetricks -q dotnet40'
-	su -p -l wine -c 'xvfb-run -a winetricks -q xna40'
-	su -p -l wine -c 'xvfb-run -a winetricks d3dx9'
-	su -p -l wine -c 'xvfb-run -a winetricks -q directplay'
+RUN	su -p -l wine -c winecfg
+RUN	su -p -l wine -c 'xvfb-run -a winetricks -q corefonts'
+RUN	su -p -l wine -c 'xvfb-run -a winetricks -q dotnet20'
+RUN	su -p -l wine -c 'xvfb-run -a winetricks -q dotnet40'
+RUN	su -p -l wine -c 'xvfb-run -a winetricks -q xna40'
+RUN	su -p -l wine -c 'xvfb-run -a winetricks d3dx9'
+RUN	su -p -l wine -c 'xvfb-run -a winetricks -q directplay'
 
 # Cleaning up.
-	apt-get autoremove -y --purge software-properties-common
-	apt-get autoremove -y --purge xvfb
-	apt-get autoremove -y --purge
-	apt-get clean -y
-	rm -rf /home/wine/.cache
-	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN	apt-get autoremove -y --purge software-properties-common
+RUN	apt-get autoremove -y --purge xvfb
+RUN	apt-get autoremove -y --purge
+RUN	apt-get clean -y
+RUN	rm -rf /home/wine/.cache
+RUN	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Installing Mono
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
